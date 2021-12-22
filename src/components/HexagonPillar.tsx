@@ -1,8 +1,9 @@
-import React from 'react';
-import { Mesh, MeshPhysicalMaterial, BufferGeometry } from 'three';
+import React, { useEffect, useRef } from 'react';
+import { Mesh, MeshPhysicalMaterial, MeshPhongMaterial, BufferGeometry } from 'three';
+import { useThree } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
-import { useRecoilValue } from 'recoil';
-import { heightFactorState, seaLevelState } from './ControlPanel';
+import { combineLatest } from 'rxjs';
+import { seaLevelSubject, heightFactorSubject } from './ControlPanel';
 import { interpolateRgbBasis } from 'd3-interpolate';
 
 type HexagonPillarProps = {
@@ -19,21 +20,29 @@ const getColor = (height: number, seaLevel: number) => (
         : seaColor(1 / seaLevel * height)
 );
 
+const getHeight = (height: number, seaLevel: number, factor: number) => (height > seaLevel ? ((height - seaLevel) * (factor * 10)) : 0) + 0.2;
+
+const height$ = combineLatest([ seaLevelSubject, heightFactorSubject ]);
+
 const HexagonPillar = ({ height, position: [x, y, z]}: HexagonPillarProps): JSX.Element | null => {
     //@ts-ignore
     const { nodes} = useGLTF('./models/pillar.glb');
+    const invalidate = useThree(state => state.invalidate);
     const mesh = nodes.Cylinder as Mesh<BufferGeometry, MeshPhysicalMaterial>;
-    const heightFactor = useRecoilValue(heightFactorState);
-    const seaLevel = useRecoilValue(seaLevelState);
+    const ref = useRef<Mesh<BufferGeometry, MeshPhongMaterial>>();
 
-    const meshHeight = (  - seaLevel) + 0.1;
-
-    if (height * heightFactor < seaLevel) {
-        return null;
-    }
+    useEffect(() => {
+        const subscription = height$.subscribe(([seaLevel, heightFactor]) => {
+            ref.current?.scale.setY(getHeight(height, seaLevel, heightFactor))
+            ref.current?.material.color.setStyle(getColor(height, seaLevel));
+            ref.current?.material.color.convertSRGBToLinear();
+            invalidate();
+        });
+        return () => subscription.unsubscribe();
+    }, [height, invalidate]);
 
     return (
-        <mesh geometry={mesh.geometry} receiveShadow castShadow position={[x, 0, y]} scale={[1, height * heightFactor - seaLevel , 1]}>
+        <mesh ref={ref} geometry={mesh.geometry} receiveShadow castShadow position={[x, 0, y]} scale={[1, getHeight(height, 0, 0), 1]}>
             <meshPhongMaterial
                 normalMap={mesh.material.normalMap}
                 normalScale={mesh.material.normalScale}
