@@ -40,10 +40,8 @@ export const seaLevelState = atom<number>({
     ]
 });
 
-type ControlPanelProps = {
-};
 
-const ControlPanel = ({}: ControlPanelProps): JSX.Element => {
+const ControlPanel = (): JSX.Element => {
     const [ showHelpers, setShowHelpers ] = useRecoilState(showHelpersState);
     const [ gridSize, setGridSize ] = useRecoilState(gridSizeState);
     const [ heightFactor, setHeightFactor ] = useRecoilState(heightFactorState);
