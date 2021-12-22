@@ -1,5 +1,6 @@
 import React from 'react';
 import { atom, useRecoilState } from 'recoil';
+import SeedInput from './SeedInput';
 import { BehaviorSubject } from 'rxjs';
 
 export const showHelpersState = atom<boolean>({
@@ -40,12 +41,17 @@ export const seaLevelState = atom<number>({
     ]
 });
 
+export const seedState = atom<number>({
+    key: 'seed',
+    default: 42,
+});
 
 const ControlPanel = (): JSX.Element => {
     const [ showHelpers, setShowHelpers ] = useRecoilState(showHelpersState);
     const [ gridSize, setGridSize ] = useRecoilState(gridSizeState);
     const [ heightFactor, setHeightFactor ] = useRecoilState(heightFactorState);
     const [ seaLevel, setSeaLevel ] = useRecoilState(seaLevelState);
+    const [ seed, setSeed ] = useRecoilState(seedState);
 
     return (
         <div className="position absolute top-0 bg-gray-600 rounded">
@@ -67,6 +73,11 @@ const ControlPanel = (): JSX.Element => {
             <div>
                 <label htmlFor="seaLevel">Sea Level</label>
                 <input id="seaLevel" value={seaLevel * 50} onChange={e => setSeaLevel(parseInt(e.target.value, 10) / 50)} type="range" min="0" max="50" />
+            </div>
+
+            <div>
+                <label htmlFor="seed">Seed</label>
+                <SeedInput id="seed" value={seed} onChange={value => setSeed(value)} />
             </div>
         </div>
     );

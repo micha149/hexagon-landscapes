@@ -8,7 +8,7 @@ import { BlendFunction } from 'postprocessing';
 import HexagonGrid from './HexagonGrid';
 import HexagonPillar from './HexagonPillar';
 import LightSetup from './LightSetup';
-import { showHelpersState, gridSizeState } from './ControlPanel';
+import { showHelpersState, gridSizeState, seedState } from './ControlPanel';
 import useNoise from '../hooks/useNoise';
 
 type CanvasProps = {
@@ -19,7 +19,8 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
     const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
     const showHelpers = useRecoilValue(showHelpersState);
     const gridSize = useRecoilValue(gridSizeState);
-    const noise = useNoise(42);
+    const seed = useRecoilValue(seedState);
+    const noise = useNoise(seed);
 
     const isometricAngle = new Euler(Math.atan(- 1 / Math.sqrt(2)), - Math.PI / 4, 0, 'YXZ');
 
