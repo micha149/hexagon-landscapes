@@ -1,16 +1,26 @@
 import React from 'react';
-import { Mesh, Color, MeshPhysicalMaterial, BufferGeometry } from 'three';
+import { Mesh, MeshPhysicalMaterial, BufferGeometry } from 'three';
 import { useGLTF } from '@react-three/drei';
 import { useRecoilValue } from 'recoil';
 import { heightFactorState, seaLevelState } from './ControlPanel';
+import { interpolateRgbBasis } from 'd3-interpolate';
 
 type HexagonPillarProps = {
     height: number,
     position: [number, number, number],
-    color?: Color | string,
 };
 
-const HexagonPillar = ({ height, color, position: [x, y, z]}: HexagonPillarProps): JSX.Element | null => {
+const seaColor = interpolateRgbBasis(['#0369A1', '#0EA5E9']);
+const landColor = interpolateRgbBasis(['#FEF3C7', '#A3E635', '#84CC16', '#15803D', '#3F6212', '#57534E', '#334155', '#ffffff']);
+
+const getColor = (height: number, seaLevel: number) => (
+    height > seaLevel
+        ? landColor(1 / (1 - seaLevel) * (height - seaLevel))
+        : seaColor(1 / seaLevel * height)
+);
+
+const HexagonPillar = ({ height, position: [x, y, z]}: HexagonPillarProps): JSX.Element | null => {
+    //@ts-ignore
     const { nodes} = useGLTF('./models/pillar.glb');
     const mesh = nodes.Cylinder as Mesh<BufferGeometry, MeshPhysicalMaterial>;
     const heightFactor = useRecoilValue(heightFactorState);
@@ -28,7 +38,8 @@ const HexagonPillar = ({ height, color, position: [x, y, z]}: HexagonPillarProps
                 normalMap={mesh.material.normalMap}
                 normalScale={mesh.material.normalScale}
                 normalMapType={mesh.material.normalMapType}
-                attach="material" color={color}
+                attach="material"
+                color={getColor(height, 0)}
             />
         </mesh>
     );

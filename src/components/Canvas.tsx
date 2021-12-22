@@ -8,7 +8,6 @@ import { BlendFunction } from 'postprocessing';
 import HexagonGrid from './HexagonGrid';
 import HexagonPillar from './HexagonPillar';
 import SimplexNoise from 'simplex-noise';
-import { interpolateRgbBasis } from 'd3-interpolate';
 import LightSetup from './LightSetup';
 import { showHelpersState, gridSizeState } from './ControlPanel';
 
@@ -17,8 +16,6 @@ const simplex = new SimplexNoise('42');
 type CanvasProps = {
     className?: string
 };
-
-const interpolateColor = interpolateRgbBasis(['#0EA5E9', '#FEF3C7', '#A3E635', '#84CC16', '#15803D', '#3F6212', '#713F12', '#334155', '#fff']);
 
 const Canvas: React.FC<CanvasProps> = ({ className }) => {
     const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
@@ -40,7 +37,6 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
 
                             return (
                                 <HexagonPillar
-                                    color={interpolateColor(height)}
                                     height={height}
                                     position={[x, y, z]}
                                 />
