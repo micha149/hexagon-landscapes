@@ -7,11 +7,9 @@ import { EffectComposer, SSAO } from '@react-three/postprocessing';
 import { BlendFunction } from 'postprocessing';
 import HexagonGrid from './HexagonGrid';
 import HexagonPillar from './HexagonPillar';
-import SimplexNoise from 'simplex-noise';
 import LightSetup from './LightSetup';
 import { showHelpersState, gridSizeState } from './ControlPanel';
-
-const simplex = new SimplexNoise('42');
+import useNoise from '../hooks/useNoise';
 
 type CanvasProps = {
     className?: string
@@ -21,6 +19,7 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
     const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
     const showHelpers = useRecoilValue(showHelpersState);
     const gridSize = useRecoilValue(gridSizeState);
+    const noise = useNoise(42);
 
     const isometricAngle = new Euler(Math.atan(- 1 / Math.sqrt(2)), - Math.PI / 4, 0, 'YXZ');
 
@@ -33,7 +32,7 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
                     {showHelpers ? <axesHelper scale={[50, 50, 50]}/> : null}
                     <HexagonGrid circle size={gridSize}>
                         {({x, y, z}) => {
-                            const height = (simplex.noise2D(x / 10, y / 10) / 2 + 0.5);
+                            const height = (noise(x, y));
 
                             return (
                                 <HexagonPillar
