@@ -21,8 +21,8 @@ const LightSetup = (): JSX.Element => {
                 shadow-camera-right={50}
                 shadow-camera-top={50}
                 shadow-camera-bottom={-50}
-                shadow-mapSize-width={4096}
-                shadow-mapSize-height={4096}
+                shadow-mapSize-width={8192}
+                shadow-mapSize-height={8192}
             />
         </>
     );
