@@ -3,11 +3,10 @@ import { Euler } from 'three'
 import { OrbitControls } from '@react-three/drei';
 import { Canvas as ThreeCanvas } from '@react-three/fiber'
 import { useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilValue } from 'recoil';
-import { EffectComposer, SSAO } from '@react-three/postprocessing';
-import { BlendFunction } from 'postprocessing';
 import HexagonGrid from './HexagonGrid';
 import HexagonPillar from './HexagonPillar';
 import LightSetup from './LightSetup';
+import Effects from './Effects';
 import { showHelpersState, gridSizeState, seedState } from './ControlPanel';
 import useNoise from '../hooks/useNoise';
 
@@ -43,14 +42,7 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
                             )
                         }}
                     </HexagonGrid>
-                     <EffectComposer>
-                         <SSAO
-                             blendFunction={BlendFunction.MULTIPLY} // Use NORMAL to see the effect
-                             samples={31}
-                             radius={6}
-                             intensity={50}
-                         />
-                     </EffectComposer>
+                    <Effects />
                 </RecoilBridge>
             </ThreeCanvas>
         </div>

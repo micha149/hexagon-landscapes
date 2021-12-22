@@ -8,4 +8,6 @@ declare module "*.svg" {
     export { Image };
 }
 
+declare module "postprocessing";
+
 declare module 'tailwindcss/colors';
