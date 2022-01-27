@@ -26,7 +26,7 @@
     "seedrandom": "^3.0.5",
     "simplex-noise": "^3.0.0",
     "tailwindcss": "^2.2.19",
-    "three": "^0.134.0",
+    "three": "^0.137.0",
     "typescript": "^4.4.4",
     "web-vitals": "^0.2.4"
   },
