@@ -25,7 +25,7 @@ const Canvas: React.FC<CanvasProps> = ({ className }) => {
 
     return (
         <div className={className}>
-            <ThreeCanvas frameloop="demand" shadows camera={{ position: [20, 0, 20], rotation: isometricAngle, near: 1, far: 1000 }}>
+            <ThreeCanvas legacy frameloop="demand" shadows camera={{ position: [20, 0, 20], rotation: isometricAngle, near: 1, far: 1000 }}>
                 <RecoilBridge>
                     <OrbitControls enablePan={false} minPolarAngle={0} maxPolarAngle={Math.PI * 0.35} minDistance={15} maxDistance={30} />
                     <LightSetup />

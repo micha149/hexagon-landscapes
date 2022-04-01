@@ -1,12 +1,10 @@
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-  mode: 'jit',
-  purge: [
+  content: [
     'src/**/*.tsx',
     'index.html',
   ],
-  darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
         white: '#fff',
@@ -16,11 +14,6 @@ module.exports = {
         gray: colors.warmGray,
     },
     extend: {},
-  },
-  variants: {
-    extend: {
-      backgroundColor: ['focus-visible'],
-    },
   },
   plugins: [],
 }
