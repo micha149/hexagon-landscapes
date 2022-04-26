@@ -1,4 +1,4 @@
-import React, { useRef }  from 'react';
+import React, { useRef, MutableRefObject }  from 'react';
 import { useRecoilValue } from 'recoil';
 import { DirectionalLight, DirectionalLightHelper } from 'three'
 import { useHelper } from '@react-three/drei';
@@ -6,8 +6,8 @@ import { showHelpersState } from './ControlPanel';
 
 const LightSetup = (): JSX.Element => {
     const showHelper = useRecoilValue(showHelpersState);
-    const lightRef = useRef<DirectionalLight>();
-    useHelper(showHelper ? lightRef : { current: undefined }, DirectionalLightHelper);
+    const lightRef = useRef<DirectionalLight>(null);
+    useHelper(showHelper && (lightRef as MutableRefObject<DirectionalLight>), DirectionalLightHelper);
 
     return (
         <>

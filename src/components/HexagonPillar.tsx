@@ -29,7 +29,7 @@ const HexagonPillar = ({ height, position: [x, y, z]}: HexagonPillarProps): JSX.
     const { nodes} = useGLTF('./models/pillar.glb');
     const invalidate = useThree(state => state.invalidate);
     const mesh = nodes.Cylinder as Mesh<BufferGeometry, MeshPhysicalMaterial>;
-    const ref = useRef<Mesh<BufferGeometry, MeshPhongMaterial>>();
+    const ref = useRef<Mesh<BufferGeometry, MeshPhongMaterial>>(null);
 
     useEffect(() => {
         const subscription = height$.subscribe(([seaLevel, heightFactor]) => {
