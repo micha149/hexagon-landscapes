@@ -1,6 +1,6 @@
 import glslify from 'rollup-plugin-glslify';
 import svgr from '@svgr/rollup';
-import reactRefresh from '@vitejs/plugin-react-refresh';
+import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -17,7 +17,7 @@ export default defineConfig({
         ]
       }
     }),
-    reactRefresh(),
+    react(),
   ],
   build: {
       sourcemap: true,
