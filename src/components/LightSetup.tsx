@@ -6,8 +6,8 @@ import { showHelpersState } from './ControlPanel';
 
 const LightSetup = (): JSX.Element => {
     const showHelper = useRecoilValue(showHelpersState);
-    const lightRef = useRef<DirectionalLight>(null);
-    useHelper(showHelper && (lightRef as MutableRefObject<DirectionalLight>), DirectionalLightHelper);
+    const lightRef = useRef<DirectionalLight>() as MutableRefObject<DirectionalLight>;
+    useHelper(showHelper && lightRef, DirectionalLightHelper);
 
     return (
         <>
