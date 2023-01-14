@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import SimplexNoise from 'simplex-noise';
+import { createNoise2D } from 'simplex-noise';
+import alea from 'alea';
 
 type NoiseFn = (x: number, y: number) => number;
 
@@ -9,7 +10,7 @@ const LACUNARITY = 1.87;
 const SCALE = 20;
 
 const useNoise = (seed: number): NoiseFn => {
-    const simplex = useMemo(() => new SimplexNoise(seed), [seed]);
+    const simplex = useMemo(() => createNoise2D(alea(seed)), [seed]);
 
     return (x, y) => {
         let amplitude = 1;
@@ -20,7 +21,7 @@ const useNoise = (seed: number): NoiseFn => {
             const sampleX = x / SCALE * frequency;
             const sampleY = y / SCALE * frequency;
 
-            const value = simplex.noise2D(sampleX, sampleY);
+            const value = simplex(sampleX, sampleY);
             noiseHeight += value * amplitude;
             noiseHeight /= 1 + amplitude;
 
