@@ -7,7 +7,6 @@
     "@react-three/fiber": "^8.0.7",
     "@react-three/postprocessing": "^2.0.5",
     "@types/d3-interpolate": "^3.0.1",
-    "@types/node": "^17.0.23",
     "@types/three": "^0.139.0",
     "@use-gesture/react": "^10.1.1",
     "autoprefixer": "^10.4.0",
